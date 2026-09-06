@@ -1,0 +1,24 @@
+[
+  {
+    "titulo": "Curso Completo de Copywriting para Iniciantes",
+    "imagem": "https://assets.kiwify.com.br/exemplo-capa-curso.jpg",
+    "precoNovo": "R$ 47,00",
+    "precoAntigo": "R$ 197,00",
+    "link": "https://kiwify.com.br/exemplo-curso-copywriting",
+    "dataFim": "2026-10-15",
+    "categoria01": "Kiwify",
+    "categoria02": "Marketing Digital",
+    "categoria03": "Cursos Online"
+  },
+  {
+    "titulo": "Ebook: 50 Ideias de Renda Extra pela Internet",
+    "imagem": "https://cdn.cakto.com.br/exemplo-capa-ebook.jpg",
+    "precoNovo": "R$ 19,90",
+    "precoAntigo": "R$ 39,90",
+    "link": "https://pay.cakto.com.br/exemplo-ebook-renda-extra",
+    "dataFim": "2026-10-15",
+    "categoria01": "Cakto",
+    "categoria02": "Renda Extra",
+    "categoria03": "Ebooks"
+  }
+]

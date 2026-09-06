@@ -1,0 +1,19 @@
+{
+  "name": "Produtos e Rendas Digital Pro",
+  "short_name": "Digital Pro",
+  "description": "Cursos, ebooks e produtos digitais com desconto real das melhores plataformas (Kiwify, Cakto e outras).",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "assets/DigitalProLogo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
