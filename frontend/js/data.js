@@ -2,16 +2,16 @@ const PRODUTOS_JSON_URL = "data/produtos.json";
 
 const socialLinks = [
   {
-    href: "https://chat.whatsapp.com/SEU_GRUPO_AQUI",
-    src: "assets/ZapLogo.png",
-    alt: "WhatsApp",
-    label: "WhatsApp",
-  },
-  {
     href: "https://www.instagram.com/produtoserendasdigitalpro",
     src: "assets/InstagramLogo.png",
     alt: "Instagram",
     label: "Instagram",
+  },
+  {
+    href: "https://www.pinterest.com/produtoserendasdigitalpro/",
+    src: "assets/PinterestLogo.png",
+    alt: "Pinterest",
+    label: "Pinterest",
   },
   {
     href: "https://www.youtube.com/@produtoserendasdigitalpro",
@@ -37,10 +37,9 @@ const textoAnuncio = {
 const cardStrings = {
   offerTitle: "Oferta Digital Pro",
   offerRemainingText: "Oferta até {dias} dias no site",
-  categoryLabel: "Categoria:",
   totalLabel: "Total:",
   buttonLabel: "Comprar",
   buttonAriaLabel: "Ver detalhes do produto",
 };
 
-const LOGO_SRC = "assets/DigitalProLogo.png";
+const LOGO_SRC = "assets/ProdutoseRendasDigitalProLogo.png";
