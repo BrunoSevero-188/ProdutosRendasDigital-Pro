@@ -1,38 +1,41 @@
 :root {
-  /* Cores base */
-  --bg-main: #0a0e17;
-  --bg-panel: #111726;
-  --bg-panel-alt: #161d2e;
-  --surface: #faf7f0;
-  --surface-border: rgba(10, 14, 23, 0.08);
-  --text-main: #f2f4f9;
-  --text-muted: #97a1b5;
+  /* Cores base — tema claro */
+  --bg-main: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-panel-alt: #f3f5f8;
+  --surface: #ffffff;
+  --surface-border: rgba(15, 23, 42, 0.08);
+  --text-main: #171b26;
+  --text-muted: #5c6577;
   --text-dark: #171b26;
   --text-dark-muted: #5c6577;
 
-  /* Acentos */
-  --accent: #f2a93b;
-  --accent-strong: #ff7a45;
-  --accent-soft: rgba(242, 169, 59, 0.14);
+  /* Gradiente de destaque (substitui o antigo laranja) */
+  --accent-1: #2794c5;
+  --accent-2: #2bc69a;
+  --accent-3: #79f048;
+  --accent-gradient: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  --accent: var(--accent-2);
+  --accent-strong: var(--accent-3);
+  --accent-soft: rgba(43, 198, 154, 0.12);
+  --accent-text-on-gradient: #0d2b30;
+
   --whatsapp: #25d366;
   --price-off: #ff6b57;
 
-  /* Bordas e sombras */
-  --border-hairline: rgba(255, 255, 255, 0.08);
-  --shadow-sm: 0 8px 20px rgba(4, 6, 12, 0.28);
-  --shadow-md: 0 20px 45px rgba(4, 6, 12, 0.45);
-  --shadow-lg: 0 26px 60px rgba(4, 6, 12, 0.55);
+  /* Bordas e sombras — mais suaves, pensadas pro fundo branco */
+  --border-hairline: rgba(15, 23, 42, 0.1);
+  --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 16px 40px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 24px 55px rgba(15, 23, 42, 0.14);
 
-  /* Raios */
   --radius-lg: 1.5rem;
   --radius-md: 1rem;
   --radius-sm: 0.65rem;
 
-  /* Tipografia */
   --font-display: "Manrope", "Segoe UI", Arial, sans-serif;
   --font-body: "Inter", "Segoe UI", Arial, sans-serif;
 
-  /* Compat: nomes antigos referenciados em outros arquivos/JS, se houver */
   --header-bg: var(--surface);
   --hero-bg: var(--surface);
   --brand-green: var(--whatsapp);

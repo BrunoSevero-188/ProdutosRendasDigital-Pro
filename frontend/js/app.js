@@ -2,8 +2,6 @@
   "use strict";
 
   var todosProdutos = [];
-  var buscaCategorias = "";
-  var filtroCaixaAberta = false;
 
   function escapeHtml(text) {
     return String(text)
@@ -16,32 +14,6 @@
 
   function resolveRemainingText(template, diasRestantes) {
     return template.replace("{dias}", String(diasRestantes));
-  }
-
-  function normalizeCategoria(categoriaBruta) {
-    var bruta = String(categoriaBruta || "").trim();
-    if (!bruta) return "Sem categoria";
-    return bruta.charAt(0).toUpperCase() + bruta.slice(1);
-  }
-
-  function getCategoriasProduto(produto) {
-    var chaves = ["categoria01", "categoria02", "categoria03", "categoria04", "categoria05"];
-    var vistos = {};
-    var categorias = [];
-
-    chaves.forEach(function (chave) {
-      var bruta = String((produto && produto[chave]) || "").trim();
-      if (!bruta) return;
-
-      var label = normalizeCategoria(bruta);
-      if (!vistos[label]) {
-        vistos[label] = true;
-        categorias.push(label);
-      }
-    });
-
-    if (!categorias.length) categorias.push("Sem categoria");
-    return categorias;
   }
 
   function ehProdutoValido(produto) {
@@ -66,13 +38,6 @@
 
   function renderCardProduto(produto) {
     var copy = cardStrings;
-
-    var categoriasProduto = getCategoriasProduto(produto);
-    var categoriasHtml = categoriasProduto
-      .map(function (categoria) {
-        return '<span class="card-produto__categoria-tag">' + escapeHtml(categoria) + "</span>";
-      })
-      .join("");
 
     var total = produto.precoNovo;
 
@@ -136,9 +101,6 @@
       imagemHtml +
       '<div class="card-produto__info">' +
       "<h4>" + escapeHtml(produto.titulo) + "</h4>" +
-      '<div class="card-produto__categorias">' +
-      categoriasHtml +
-      "</div>" +
       "</div>" +
       '<div class="card-produto__price">' +
       precoAntigoHtml +
@@ -169,154 +131,12 @@
     if (!grid) return;
 
     if (!produtos.length) {
-      var mensagem = !buscaCategorias.trim()
-        ? "Nenhum produto cadastrado no momento. Volte em breve!"
-        : "Nenhum produto encontrado para essas categorias.";
-      grid.innerHTML = '<p class="produtos-vazio">' + escapeHtml(mensagem) + "</p>";
+      grid.innerHTML =
+        '<p class="produtos-vazio">Nenhum produto cadastrado no momento. Volte em breve!</p>';
       return;
     }
 
     grid.innerHTML = produtos.map(renderCardProduto).join("");
-  }
-
-  function coletarCategorias(produtos) {
-    var contagemPorCategoria = {};
-    produtos.forEach(function (produto) {
-      getCategoriasProduto(produto).forEach(function (label) {
-        contagemPorCategoria[label] = (contagemPorCategoria[label] || 0) + 1;
-      });
-    });
-    return contagemPorCategoria;
-  }
-
-  function filtrarProdutosPorCategoria(produtos) {
-    var termos = parseTermosBusca(buscaCategorias);
-    if (!termos.length) return produtos;
-
-    return produtos.filter(function (produto) {
-      var categoriasProduto = getCategoriasProduto(produto).map(function (categoria) {
-        return categoria.toLowerCase();
-      });
-      return termos.some(function (termo) {
-        return categoriasProduto.some(function (categoria) {
-          return categoria.indexOf(termo) !== -1;
-        });
-      });
-    });
-  }
-
-  function parseTermosBusca(texto) {
-    return String(texto || "")
-      .split(",")
-      .map(function (termo) {
-        return termo.trim().toLowerCase();
-      })
-      .filter(function (termo) {
-        return termo.length > 0;
-      });
-  }
-
-  function renderFiltroBotaoTodos(total, ativo) {
-    return (
-      '<button type="button" class="filtro-categorias__item' +
-      (ativo ? " filtro-categorias__item--ativo" : "") +
-      '" data-categoria="todas" aria-pressed="' +
-      (ativo ? "true" : "false") +
-      '">' +
-      "Todos" +
-      ' <span class="filtro-categorias__contagem">' +
-      total +
-      "</span>" +
-      "</button>"
-    );
-  }
-
-  function limparFiltro() {
-    buscaCategorias = "";
-    filtroCaixaAberta = false;
-    renderFiltroCategorias(todosProdutos);
-    renderProdutos(filtrarProdutosPorCategoria(todosProdutos));
-  }
-
-  function alternarCaixaFiltro() {
-    filtroCaixaAberta = !filtroCaixaAberta;
-    renderFiltroCategorias(todosProdutos);
-    var input = document.getElementById("filtro-categorias-input");
-    if (filtroCaixaAberta && input) input.focus();
-  }
-
-  function aoDigitarBusca(evento) {
-    buscaCategorias = evento.target.value;
-    renderProdutos(filtrarProdutosPorCategoria(todosProdutos));
-
-    var botaoTodos = document.querySelector('[data-categoria="todas"]');
-    if (botaoTodos) {
-      var todosAtivo = !buscaCategorias.trim();
-      botaoTodos.classList.toggle("filtro-categorias__item--ativo", todosAtivo);
-      botaoTodos.setAttribute("aria-pressed", todosAtivo ? "true" : "false");
-    }
-  }
-
-  function renderFiltroCategorias(produtos) {
-    var container = document.getElementById("filtro-categorias");
-    if (!container) return;
-
-    if (!produtos.length) {
-      container.innerHTML = "";
-      return;
-    }
-
-    var contagemPorCategoria = coletarCategorias(produtos);
-    var categoriasOrdenadas = Object.keys(contagemPorCategoria).sort(function (a, b) {
-      return a.localeCompare(b, "pt-BR", { numeric: true, sensitivity: "base" });
-    });
-
-    var todosAtivo = !buscaCategorias.trim();
-
-    var datalistOptions = categoriasOrdenadas
-      .map(function (label) {
-        return (
-          '<option value="' +
-          escapeHtml(label) +
-          '" label="' +
-          escapeHtml(label) +
-          " (" +
-          contagemPorCategoria[label] +
-          ')"></option>'
-        );
-      })
-      .join("");
-
-    container.innerHTML =
-      '<div class="filtro-categorias__barra">' +
-      renderFiltroBotaoTodos(produtos.length, todosAtivo) +
-      '<button type="button" id="filtro-categorias-toggle" class="filtro-categorias__toggle' +
-      (filtroCaixaAberta ? " filtro-categorias__toggle--ativo" : "") +
-      '" aria-expanded="' +
-      (filtroCaixaAberta ? "true" : "false") +
-      '" aria-controls="filtro-categorias-caixa">' +
-      "Filtrar categorias" +
-      "</button>" +
-      "</div>" +
-      '<div id="filtro-categorias-caixa" class="filtro-categorias__caixa' +
-      (filtroCaixaAberta ? "" : " filtro-categorias__caixa--oculta") +
-      '">' +
-      '<input type="text" id="filtro-categorias-input" class="filtro-categorias__input" list="filtro-categorias-lista" placeholder="Digite categorias, separadas por vírgula (ex: Kiwify, Cakto)" aria-label="Digite categorias para filtrar" value="' +
-      escapeHtml(buscaCategorias) +
-      '" />' +
-      '<datalist id="filtro-categorias-lista">' +
-      datalistOptions +
-      "</datalist>" +
-      "</div>";
-
-    var botaoTodos = container.querySelector('[data-categoria="todas"]');
-    if (botaoTodos) botaoTodos.addEventListener("click", limparFiltro);
-
-    var botaoToggle = document.getElementById("filtro-categorias-toggle");
-    if (botaoToggle) botaoToggle.addEventListener("click", alternarCaixaFiltro);
-
-    var inputBusca = document.getElementById("filtro-categorias-input");
-    if (inputBusca) inputBusca.addEventListener("input", aoDigitarBusca);
   }
 
   function carregarProdutos() {
@@ -404,10 +224,7 @@
 
       carregarProdutos().then(function (produtos) {
         todosProdutos = produtos;
-        buscaCategorias = "";
-        filtroCaixaAberta = false;
-        renderFiltroCategorias(todosProdutos);
-        renderProdutos(filtrarProdutosPorCategoria(todosProdutos));
+        renderProdutos(todosProdutos);
       });
     } catch (err) {
       var gridErro = document.getElementById("produtos-grid");
