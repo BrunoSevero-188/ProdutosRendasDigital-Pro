@@ -49,9 +49,6 @@ def buscar_produtos_kiwify(urls_produtos):
             "precoAntigo": "",
             "link": url,
             "dataFim": str(date.today() + timedelta(days=DIAS_VALIDADE_OFERTA)),
-            "categoria01": "Kiwify",
-            "categoria02": "",
-            "categoria03": "",
         })
 
     return produtos

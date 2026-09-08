@@ -44,9 +44,6 @@ def buscar_produtos_cakto(urls_produtos):
             "precoAntigo": "",
             "link": url,
             "dataFim": str(date.today() + timedelta(days=DIAS_VALIDADE_OFERTA)),
-            "categoria01": "Cakto",
-            "categoria02": "",
-            "categoria03": "",
         })
 
     return produtos
